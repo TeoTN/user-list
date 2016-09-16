@@ -1,0 +1,1 @@
+{"version":3,"sources":["users.reducer.js"],"names":[],"mappings":";;;;;;kBAAe,YAA8B;AAAA,QAApB,KAAoB,yDAAZ,EAAY;AAAA,QAAR,MAAQ;;AACzC,YAAQ,OAAO,IAAf;AACI;AACI,mBAAO,KAAP;AAFR;AAIH,C","file":"users.reducer-compiled.js","sourcesContent":["export default function (state = {}, action) {\n    switch (action.type) {\n        default:\n            return state;\n    }\n}"]}

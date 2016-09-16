@@ -1,0 +1,1 @@
+{"version":3,"sources":["reducer.js"],"names":[],"mappings":";;;;;;AAAA;;AACA;;;;;;kBAEe,4BAAgB;AAC3B;AAD2B,CAAhB,C","file":"reducer-compiled.js","sourcesContent":["import { combineReducers } from 'redux';\nimport users from './users.reducer';\n\nexport default combineReducers({\n    users\n});"]}
