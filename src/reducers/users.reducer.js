@@ -1,27 +1,34 @@
 import { combineReducers } from 'redux';
+import { loadMetadata } from '../persistence'
 import * as types from '../actions/users.types';
 
-export const defaultmetadata = {
-    sorting: {
-        column: 'username',
-        order: 'asc',
-    },
-    count: 0,
-    page: 1,
-    page_size: 10,
-    filter: '',
-    loading: true,
-    model: {
-        id: 'ID',
-        username: 'User name',
-        title: 'Title',
-        views: '# views',
-        likes: '# likes',
-        date_created: 'Created on'
-    }
+export const getDefaultMetadata = () => {
+    const stored = loadMetadata();
+    return (stored) ?
+    {...stored, loading: true} :
+    {
+        sorting: {
+            column: 'username',
+            order: 'asc',
+        },
+        count: 0,
+        page: 1,
+        page_size: 10,
+        filter: '',
+        loading: true,
+        model: {
+            id: 'ID',
+            username: 'User name',
+            title: 'Title',
+            views: '# views',
+            likes: '# likes',
+            date_created: 'Created on'
+        }
+    };
+
 };
 
-const metadata = (state = defaultmetadata, action) => {
+const metadata = (state = getDefaultMetadata(), action) => {
     switch (action.type) {
         case types.SORT:
             return {

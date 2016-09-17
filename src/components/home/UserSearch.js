@@ -9,15 +9,18 @@ import {
     Glyphicon
 } from 'react-bootstrap';
 
+const mapStateToProps = ({users}) => ({
+    lookup: users.metadata.filter,
+});
 const mapDispatchToProps = (dispatch) => ({
     search: (lookup) => dispatch(actions.filter(lookup)),
 });
-@connect(null, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 export default class UserSearch extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lookup: ''
+            lookup: props.lookup
         }
     }
 

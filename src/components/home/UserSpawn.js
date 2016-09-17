@@ -29,9 +29,9 @@ class UserSpawn extends Component {
 
     saveUser = () => {
         const { user } = this.state;
+        this.closeForm();
         createUser(user)
             .then(this.props.add)
-            .then(this.closeForm);
     };
 
     openForm = () => {

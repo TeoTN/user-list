@@ -1,12 +1,12 @@
 import { delay } from '../utils/delay';
 import usersMock from '../mocks/users.mock.json';
+import {loadCustomUsers, saveCustomUsers} from '../persistence';
 
 /*
  * It is assumed that pagination, filtering, ordering etc. are server-side (pros: caching)
  */
-let userList = usersMock;
-const comparator = (lookup) => (user) => user.username.includes(lookup);
-
+let customUsers = loadCustomUsers() || [];
+const comparator = (lookup) => (user) => user?user.username.includes(lookup):false;
 const dir = (order) => order === 'asc' ? -1 : 1;
 const sort = (column, order) =>
     (a, b) => a[column] < b[column] ? dir(order) : a[column] === b[column] ? 0 : -dir(order);
@@ -18,7 +18,7 @@ export const fetchUsers = metadata => {
     return delay(3000)
         .then(
             () => {
-                const data = userList
+                const data = (usersMock.concat(customUsers))
                     .filter(comparator(filter))
                     .sort(sort(column, order));
                 return {
@@ -31,12 +31,13 @@ export const fetchUsers = metadata => {
 };
 
 export const createUser = user => {
-    const id = Math.max.apply(null, userList.map(user => user.id)) + 1;
+    const id = Math.max.apply(null, usersMock.concat(customUsers).map(user => user.id)) + 1;
     const userData = {
         ...user,
         id: id>0?id:1,
     };
-    userList = [userData, ...userList];
+    customUsers = [userData, ...customUsers];
+    saveCustomUsers(customUsers);
     return delay(1500)
         .then(() => ({
             data: userData,

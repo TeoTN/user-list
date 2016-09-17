@@ -1,5 +1,6 @@
 import { createStore } from 'redux';
-import reducer from './reducers/reducer'
+import reducer from './reducers/reducer';
+import { saveMetadata } from './persistence';
 
 const createLoggingDispatch = (store) => {
     const rawDispatch = store.dispatch;
@@ -18,6 +19,9 @@ const createLoggingDispatch = (store) => {
 };
 
 const store = createStore(reducer);
+store.subscribe(() => {
+    saveMetadata(store.getState().users.metadata);
+});
 if (process.env.NODE_ENV !== 'production') {
     store.dispatch = createLoggingDispatch(store);
 }
