@@ -1,15 +1,14 @@
 import { combineReducers } from 'redux';
 import * as types from '../actions/users.types';
-import userMock from '../mocks/users.mock.json';
 
 export const defaultmetadata = {
     sorting: {
         column: 'username',
         order: 'asc',
     },
+    count: 0,
     page: 1,
     page_size: 10,
-    pages: Math.ceil(userMock.length / 10),
     filter: '',
     loading: true,
 };
@@ -35,13 +34,23 @@ const metadata = (state = defaultmetadata, action) => {
             return {
                 ...state,
                 page_size: action.size,
-                pages: Math.ceil(userMock.length / action.size),
+                loading: true,
+            };
+        case types.FILTER:
+            return {
+                ...state,
+                filter: action.lookup,
                 loading: true,
             };
         case types.FETCH_DONE:
             return {
                 ...state,
                 loading: false,
+            };
+        case types.GET_LIST:
+            return {
+                ...state,
+                count: action.response.count
             };
         default:
             return state;
@@ -58,7 +67,7 @@ const list = (state = [], action) => {
         case types.DELETE:
             return state.filter(u => u.id !== action.id);
         case types.GET_LIST:
-            return action.response;
+            return action.response.data;
         default:
             return state;
     }

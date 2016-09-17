@@ -63,6 +63,16 @@ class UserList extends Component {
         );
     }
 
+    renderEmpty() {
+        return (
+            <tr key="loading">
+                <td colSpan="6">
+                    <span className="text-danger"> Users matching criteria were not found </span>
+                </td>
+            </tr>
+        );
+    }
+
     render() {
         const { list } = this.props;
         const { loading } = this.props.metadata;
@@ -81,9 +91,11 @@ class UserList extends Component {
                     </thead>
                     <tbody>
                         {
-                            !loading ?
-                            list.map(this.renderUser) :
-                            this.renderLoading()
+                            loading ?
+                            this.renderLoading() :
+                                list.length ?
+                                    list.map(this.renderUser) :
+                                    this.renderEmpty()
                         }
                     </tbody>
                 </Table>

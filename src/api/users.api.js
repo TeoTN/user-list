@@ -5,9 +5,7 @@ import usersMock from '../mocks/users.mock.json';
  * It is assumed that pagination, filtering, ordering etc. are server-side (pros: caching)
  */
 
-const comparator = (lookup) => (user) => {
-    return user.username.startsWith(lookup); //TODO some clever matching
-};
+const comparator = (lookup) => (user) => user.username.includes(lookup);
 
 const dir = (order) => order === 'asc' ? -1 : 1;
 const sort = (column, order) =>
@@ -19,9 +17,14 @@ export const fetchUsers = metadata => {
     const firstElement = (page - 1) * page_size;
     return delay(3000)
         .then(
-            () => usersMock
-                .filter(comparator(filter))
-                .sort(sort(column, order))
-                .slice(firstElement, firstElement + page_size)
+            () => {
+                const data = usersMock
+                    .filter(comparator(filter))
+                    .sort(sort(column, order));
+                return {
+                    data: data.slice(firstElement, firstElement + page_size),
+                    count: data.length,
+                }
+            }
         );
 };
