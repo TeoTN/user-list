@@ -1,7 +1,7 @@
 import * as types from '../actions/auth.types';
 import {loadAuth} from '../persistence';
 
-const auth = (state = loadAuth(), action) => {
+const auth = (state = loadAuth() || {loggedIn: false}, action) => {
     switch (action.type) {
         case types.SIGN_IN:
             return {
