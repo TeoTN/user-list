@@ -24,21 +24,24 @@ const mapDispatchToProps = (dispatch) => ({
 export default class UserToolbar extends Component {
     render() {
         const { page, page_size, pages } = this.props.metadata;
+        const { changePage, changePageSize} = this.props;
         return (
             <Form inline>
             <ButtonToolbar>
                 <ButtonGroup>
                     <Pagination bsSize="small" prev next first last ellipsis boundaryLinks
                         items={pages} maxButtons={3} activePage={page} style={{'margin': '1px'}}
-                        onSelect={this.props.changePage} />
+                        onSelect={changePage} />
                 </ButtonGroup>
                 <ButtonGroup>
                     <DropdownButton id="items-per-page" bsSize="small" bsStyle="primary"
                                     title={`Items per page: ${page_size}`}>
-                        <MenuItem eventKey="1">5</MenuItem>
-                        <MenuItem eventKey="2">10</MenuItem>
-                        <MenuItem eventKey="3">15</MenuItem>
-                        <MenuItem eventKey="4">20</MenuItem>
+                        { [5, 10, 15, 20].map(key =>
+                            <MenuItem key={key} eventKey={key} onSelect={changePageSize}
+                                      active={page_size === key}>
+                                Show {key}
+                            </MenuItem>
+                        ) }
                     </DropdownButton>
                 </ButtonGroup>
                 <UserSearch />
