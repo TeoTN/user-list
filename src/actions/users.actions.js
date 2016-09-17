@@ -39,3 +39,7 @@ export const receiveList = (response) => ({
     type: types.GET_LIST,
     response
 });
+
+export const fetchDone = () => ({
+    type: types.FETCH_DONE,
+});

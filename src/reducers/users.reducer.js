@@ -1,17 +1,20 @@
 import { combineReducers } from 'redux';
 import * as types from '../actions/users.types';
+import userMock from '../mocks/users.mock.json';
 
-export const defaultPreprocessing = {
+export const defaultmetadata = {
     sorting: {
         column: 'username',
         order: 'asc',
     },
     page: 1,
     page_size: 10,
+    pages: Math.ceil(userMock.length / 10),
     filter: '',
+    loading: true,
 };
 
-const preprocessing = (state = defaultPreprocessing, action) => {
+const metadata = (state = defaultmetadata, action) => {
     switch (action.type) {
         case types.SORT:
             return {
@@ -19,7 +22,26 @@ const preprocessing = (state = defaultPreprocessing, action) => {
                 sorting: {
                     column: action.column,
                     order: action.order
-                }
+                },
+                loading: true,
+            };
+        case types.CHANGE_PAGE:
+            return {
+                ...state,
+                page: action.page,
+                loading: true,
+            };
+        case types.CHANGE_PAGE_SIZE:
+            return {
+                ...state,
+                page_size: action.size,
+                pages: Math.ceil(userMock.length / action.size),
+                loading: true,
+            };
+        case types.FETCH_DONE:
+            return {
+                ...state,
+                loading: false,
             };
         default:
             return state;
@@ -36,7 +58,6 @@ const list = (state = [], action) => {
         case types.DELETE:
             return state.filter(u => u.id !== action.id);
         case types.GET_LIST:
-            console.log(action);
             return action.response;
         default:
             return state;
@@ -45,6 +66,6 @@ const list = (state = [], action) => {
 
 const users = combineReducers({
     list,
-    preprocessing,
+    metadata,
 });
 export default users;

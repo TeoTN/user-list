@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../../api/users.api';
-import { receiveList } from '../../actions/users.actions';
+import { receiveList, fetchDone } from '../../actions/users.actions';
 
 const mapStateToProps = (state) => ({
     list: state.users.list,
-    preprocessing: state.users.preprocessing,
+    metadata: state.users.metadata,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    receiveList: (preprocessing) => dispatch(receiveList(preprocessing)),
+    receiveList: (metadata) => dispatch(receiveList(metadata)),
+    fetchDone: () => dispatch(fetchDone())
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 class UserList extends Component {
     fetchData() {
-        const { receiveList, preprocessing } = this.props;
-        fetchUsers(preprocessing).then(receiveList, console.error.bind(console));
+        const { receiveList, fetchDone, metadata } = this.props;
+        fetchUsers(metadata)
+            .then(receiveList, console.error.bind(console))
+            .then(fetchDone);
     }
 
     componentDidMount() {
@@ -25,14 +28,22 @@ class UserList extends Component {
     }
 
     componentDidUpdate(prevValue) {
-        if (this.props.preprocessing !== prevValue.preprocessing) {
+        const metadataDidChange = (prev, curr) => {
+            for (let key in curr) {
+                if (key !== 'loading' && prev[key] !== curr[key]) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        if (metadataDidChange(prevValue.metadata, this.props.metadata)) {
             this.fetchData();
         }
     }
 
     renderUser(user) {
         return (
-            <tr>
+            <tr key={user.id}>
                 {
                     Object.entries(user).map(
                         ([prop, value]) => <td key={prop}>{value}</td>
@@ -44,7 +55,7 @@ class UserList extends Component {
 
     renderLoading() {
         return (
-            <tr>
+            <tr key="loading">
                 <td colSpan="6">
                     <span className="text-info"> Loading... </span>
                 </td>
@@ -54,6 +65,7 @@ class UserList extends Component {
 
     render() {
         const { list } = this.props;
+        const { loading } = this.props.metadata;
         return (
             <section>
                 <Table striped hover>
@@ -68,7 +80,11 @@ class UserList extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                        { list.length ? list.map(this.renderUser) : this.renderLoading() }
+                        {
+                            !loading ?
+                            list.map(this.renderUser) :
+                            this.renderLoading()
+                        }
                     </tbody>
                 </Table>
             </section>

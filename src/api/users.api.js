@@ -13,9 +13,9 @@ const dir = (order) => order === 'asc' ? -1 : 1;
 const sort = (column, order) =>
     (a, b) => a[column] < b[column] ? dir(order) : a[column] === b[column] ? 0 : -dir(order);
 
-export const fetchUsers = preprocessing => {
-    const { column, order } = preprocessing.sorting;
-    const { filter, page, page_size } = preprocessing;
+export const fetchUsers = metadata => {
+    const { column, order } = metadata.sorting;
+    const { filter, page, page_size } = metadata;
     const firstElement = (page - 1) * page_size;
     return delay(3000)
         .then(

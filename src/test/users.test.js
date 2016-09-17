@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as actions from '../actions/users.actions';
 import deepFreeze from 'deep-freeze';
-import users, { defaultPreprocessing } from '../reducers/users.reducer';
+import users, { defaultmetadata } from '../reducers/users.reducer';
 import usersMock from '../mocks/users.mock.json';
 
 describe('User list reducer', function() {
@@ -44,7 +44,7 @@ describe('User list reducer', function() {
 describe('Users settings reducer', function() {
     it('should change sorting param', function() {
         const stateBefore = {
-            ...defaultPreprocessing
+            ...defaultmetadata
         };
         const action = actions.sort('likes', 'desc');
         const stateAfter = {
@@ -60,7 +60,7 @@ describe('Users settings reducer', function() {
         deepFreeze(stateBefore);
         deepFreeze(action);
 
-        expect(users(stateBefore, action).preprocessing).to.deep.equal(stateAfter);
+        expect(users(stateBefore, action).metadata).to.deep.equal(stateAfter);
     });
     it('should actually sort users', function() {
         const stateBefore = [

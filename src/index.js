@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import reducer from './reducers/reducer';
@@ -9,9 +8,10 @@ import { HomeLayout, StateLayout, SettingsLayout } from './components/layouts/in
 import './assets/styles/index.css';
 import './assets/styles/bootstrap.min.css';
 import './utils/polyfill';
+import store from './store';
 
 ReactDOM.render(
-    <Provider store={createStore(reducer)}>
+    <Provider store={store}>
         <Router history={browserHistory}>
             <Route component={App}>
                 <Route path="/" component={HomeLayout} />
