@@ -8,6 +8,7 @@ import App from './App';
 import { HomeLayout, StateLayout, SettingsLayout } from './components/layouts/index';
 import './assets/styles/index.css';
 import './assets/styles/bootstrap.min.css';
+import './utils/polyfill';
 
 ReactDOM.render(
     <Provider store={createStore(reducer)}>

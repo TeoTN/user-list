@@ -34,3 +34,8 @@ export const changePageSize = (size) => ({
     type: types.CHANGE_PAGE_SIZE,
     size
 });
+
+export const receiveList = (response) => ({
+    type: types.GET_LIST,
+    response
+});

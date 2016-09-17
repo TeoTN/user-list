@@ -1,6 +1,4 @@
 import React from 'react';
-import UserList from '../home/UserList';
-import UserToolbar from '../home/UserToolbar';
 
 const SettingsLayout = () => (
     <div>

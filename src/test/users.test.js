@@ -62,4 +62,20 @@ describe('Users settings reducer', function() {
 
         expect(users(stateBefore, action).preprocessing).to.deep.equal(stateAfter);
     });
+    it('should actually sort users', function() {
+        const stateBefore = [
+            {"id":1,"username":"mwatson0","likes":143,},
+            {"id":2,"username":"lhoward1","likes":82,},
+        ];
+        const action = actions.sort('likes', 'asc');
+        const stateAfter = [
+            {"id":2,"username":"lhoward1","likes":82,},
+            {"id":1,"username":"mwatson0","likes":143,},
+        ];
+
+        deepFreeze(stateBefore);
+        deepFreeze(action);
+
+        expect(users(stateBefore, action).list).to.deep.equal(stateAfter);
+    });
 });

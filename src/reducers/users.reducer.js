@@ -35,6 +35,9 @@ const list = (state = [], action) => {
             ];
         case types.DELETE:
             return state.filter(u => u.id !== action.id);
+        case types.GET_LIST:
+            console.log(action);
+            return action.response;
         default:
             return state;
     }
