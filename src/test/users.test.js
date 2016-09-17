@@ -42,29 +42,24 @@ describe('User list reducer', function() {
 });
 
 describe('Users settings reducer', function() {
-
-    it('should sort user list', function() {
+    it('should change sorting param', function() {
         const stateBefore = {
-            users: [],
-            preprocessing: defaultPreprocessing
+            ...defaultPreprocessing
         };
         const action = actions.sort('likes', 'desc');
         const stateAfter = {
-            list: [],
-            preprocessing: {
-                sorting: {
-                    column: 'likes',
-                    order: 'desc',
-                },
-                page: 1,
-                page_size: 10,
-                filter: '',
+            sorting: {
+                column: 'likes',
+                order: 'desc',
             },
+            page: 1,
+            page_size: 10,
+            filter: '',
         };
 
         deepFreeze(stateBefore);
         deepFreeze(action);
 
-        expect(users(stateBefore, action)).to.deep.equal(stateAfter);
+        expect(users(stateBefore, action).preprocessing).to.deep.equal(stateAfter);
     });
 });
