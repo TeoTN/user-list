@@ -31,7 +31,8 @@ class UserList extends Component {
     componentDidUpdate(prevValue) {
         const metadataDidChange = (prev, curr) => {
             for (let key in curr) {
-                if (key !== 'loading' && prev[key] !== curr[key]) {
+                if (prev[key] !== curr[key]) {
+                    if (key === 'loading' && !curr[key]) continue;
                     return true;
                 }
             }

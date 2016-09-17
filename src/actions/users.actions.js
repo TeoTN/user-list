@@ -1,10 +1,5 @@
 import * as types from './users.types';
 
-export const remove = (id) => ({
-    type: types.DELETE,
-    id
-});
-
 export const add = (data) => ({
     type: types.ADD,
     userData: {

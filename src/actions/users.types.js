@@ -1,5 +1,4 @@
 export const ADD = 'USER::ADD';
-export const DELETE = 'USER::DELETE';
 export const SORT = 'USER::SORT';
 export const FILTER = 'USER::FILTER';
 export const CHANGE_PAGE = 'USER::CHANGE_PAGE';

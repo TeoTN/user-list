@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/users.actions';
 import { Button, Glyphicon, Modal } from 'react-bootstrap';
 import { FieldGroup } from '../shared/FieldGroup';
+import { createUser } from '../../api/users.api';
 
 const mapStateToProps = ({users}) => ({
     model: users.metadata.model,
@@ -27,8 +28,10 @@ class UserSpawn extends Component {
     };
 
     saveUser = () => {
-        this.props.add(this.state.user);
-        this.closeForm();
+        const { user } = this.state;
+        createUser(user)
+            .then(this.props.add)
+            .then(this.closeForm);
     };
 
     openForm = () => {

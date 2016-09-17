@@ -25,20 +25,6 @@ describe('User list reducer', function() {
 
         expect(users(stateBefore, action).list).to.deep.equal(stateAfter);
     });
-
-    it('should delete user', function() {
-        const stateBefore = [{
-            id: 0,
-            ...mockUser
-        }];
-        const action = actions.remove(0);
-        const stateAfter = [];
-
-        deepFreeze(stateBefore);
-        deepFreeze(action);
-
-        expect(users(stateBefore, action).list).to.deep.equal(stateAfter);
-    });
 });
 
 describe('Users settings reducer', function() {

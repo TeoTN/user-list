@@ -11,11 +11,6 @@ const dir = (order) => order === 'asc' ? -1 : 1;
 const sort = (column, order) =>
     (a, b) => a[column] < b[column] ? dir(order) : a[column] === b[column] ? 0 : -dir(order);
 
-export const hooks = {
-    addUser: user => userList = userList.concat(user),
-    deleteUser: id => userList = userList.filter(u => id !== u.id),
-};
-
 export const fetchUsers = metadata => {
     const { column, order } = metadata.sorting;
     const { filter, page, page_size } = metadata;
@@ -35,3 +30,16 @@ export const fetchUsers = metadata => {
         );
 };
 
+export const createUser = user => {
+    const id = Math.max.apply(null, userList.map(user => user.id)) + 1;
+    const userData = {
+        ...user,
+        id: id>0?id:1,
+    };
+    userList = [userData, ...userList];
+    return delay(1500)
+        .then(() => ({
+            data: userData,
+            status_code: 201,
+        }));
+};

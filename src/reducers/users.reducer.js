@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import * as types from '../actions/users.types';
-import { hooks } from '../api/users.api';
 
 export const defaultmetadata = {
     sorting: {
@@ -62,6 +61,11 @@ const metadata = (state = defaultmetadata, action) => {
                 ...state,
                 count: action.response.count
             };
+        case types.ADD:
+            return {
+                ...state,
+                loading: true
+            };
         default:
             return state;
     }
@@ -70,19 +74,10 @@ const metadata = (state = defaultmetadata, action) => {
 const list = (state = [], action) => {
     switch (action.type) {
         case types.ADD:
-            const id = Math.max.apply(null, state.map(user => user.id)) + 1;
-            const userData = {
-                ...action.userData,
-                id: id>0?id:1,
-            };
-            hooks.addUser(userData);
             return [
-                userData,
+                action.userData,
                 ...state
             ];
-        case types.DELETE:
-            hooks.deleteUser(action.id);
-            return state.filter(u => u.id !== action.id);
         case types.GET_LIST:
             return action.response.data;
         default:
