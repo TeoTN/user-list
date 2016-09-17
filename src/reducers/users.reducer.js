@@ -57,6 +57,7 @@ const metadata = (state = getDefaultMetadata(), action) => {
                 ...state,
                 filter: action.lookup,
                 loading: true,
+                page: 1
             };
         case types.FETCH_DONE:
             return {

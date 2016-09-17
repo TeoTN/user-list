@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 import reducer from './reducers/reducer';
-import { saveMetadata } from './persistence';
+import { saveMetadata, saveAuth } from './persistence';
 
 const createLoggingDispatch = (store) => {
     const rawDispatch = store.dispatch;
@@ -20,7 +20,9 @@ const createLoggingDispatch = (store) => {
 
 const store = createStore(reducer);
 store.subscribe(() => {
-    saveMetadata(store.getState().users.metadata);
+    const state = store.getState();
+    saveMetadata(state.users.metadata);
+    saveAuth(state.auth);
 });
 if (process.env.NODE_ENV !== 'production') {
     store.dispatch = createLoggingDispatch(store);

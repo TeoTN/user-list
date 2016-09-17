@@ -34,7 +34,7 @@ export default class UserToolbar extends Component {
                 </ButtonGroup>
                 <ButtonGroup>
                     <Pagination bsSize="small" prev next first last ellipsis boundaryLinks
-                        items={Math.ceil(count / page_size)} maxButtons={3} activePage={page}
+                        items={Math.ceil(count / page_size)} maxButtons={5} activePage={page}
                         style={{'margin': '1px'}} onSelect={changePage} />
                 </ButtonGroup>
                 <ButtonGroup>

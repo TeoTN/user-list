@@ -25,3 +25,5 @@ export const loadMetadata = loadData('metadata');
 export const saveMetadata = saveData('metadata');
 export const loadCustomUsers = loadData('users');
 export const saveCustomUsers = saveData('users');
+export const loadAuth = loadData('auth');
+export const saveAuth = saveData('auth');

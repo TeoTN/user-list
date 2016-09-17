@@ -5,5 +5,5 @@ body {
 }
 
 tr.selected {
-  background: #fffda4;
+  background: #fffda4 !important;
 }
