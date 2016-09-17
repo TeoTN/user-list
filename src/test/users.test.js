@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import * as actions from '../actions/users.actions';
 import deepFreeze from 'deep-freeze';
-import users from '../reducers/users.reducer';
+import users, { defaultPreprocessing } from '../reducers/users.reducer';
 import usersMock from '../mocks/users.mock.json';
 
-describe('Users reducer', function() {
+describe('User list reducer', function() {
     const mockUser = {
         "username":"smithsson",
         "title":"Virtual dynamic concept",
@@ -14,7 +14,7 @@ describe('Users reducer', function() {
     };
     it('should add user', function() {
         const stateBefore = [];
-        const action = actions.userNew(mockUser);
+        const action = actions.add(mockUser);
         const stateAfter = [{
             id: 0,
             ...mockUser
@@ -23,7 +23,7 @@ describe('Users reducer', function() {
         deepFreeze(stateBefore);
         deepFreeze(action);
 
-        expect(users(stateBefore, action)).to.deep.equal(stateAfter);
+        expect(users(stateBefore, action).list).to.deep.equal(stateAfter);
     });
 
     it('should delete user', function() {
@@ -31,8 +31,36 @@ describe('Users reducer', function() {
             id: 0,
             ...mockUser
         }];
-        const action = actions.userDelete(0);
+        const action = actions.remove(0);
         const stateAfter = [];
+
+        deepFreeze(stateBefore);
+        deepFreeze(action);
+
+        expect(users(stateBefore, action).list).to.deep.equal(stateAfter);
+    });
+});
+
+describe('Users settings reducer', function() {
+
+    it('should sort user list', function() {
+        const stateBefore = {
+            users: [],
+            preprocessing: defaultPreprocessing
+        };
+        const action = actions.sort('likes', 'desc');
+        const stateAfter = {
+            list: [],
+            preprocessing: {
+                sorting: {
+                    column: 'likes',
+                    order: 'desc',
+                },
+                page: 1,
+                page_size: 10,
+                filter: '',
+            },
+        };
 
         deepFreeze(stateBefore);
         deepFreeze(action);
