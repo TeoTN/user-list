@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import UserListHeader from './UserListHeader';
+import UserItem from './UserItem';
+import InfoLoading from './InfoLoading';
+import ErrorEmpty from './ErrorEmpty';
 import { fetchUsers } from '../../api/users.api';
 import * as actions from '../../actions/users.actions';
 
 const mapStateToProps = (state) => ({
     list: state.users.list,
     metadata: state.users.metadata,
+    auth: state.auth,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -29,6 +33,7 @@ class UserList extends Component {
     }
 
     componentDidUpdate(prevValue) {
+        /* Trigger loading user list whenever metadata updates */
         const metadataDidChange = (prev, curr) => {
             for (let key in curr) {
                 if (prev[key] !== curr[key]) {
@@ -43,39 +48,9 @@ class UserList extends Component {
         }
     }
 
-    renderUser(user) {
-        const { model } = this.props.metadata;
-
-        return (
-            <tr key={user.id}>
-                {
-                    Object.entries(model).map(
-                        ([key, label]) => <td key={key}>{user[key]}</td>
-                    )
-                }
-            </tr>
-        );
-    }
-
-    renderLoading = () => (
-        <tr key="loading">
-            <td colSpan="6">
-                <span className="text-info"> Loading... </span>
-            </td>
-        </tr>
-    );
-
-    renderEmpty = () => (
-        <tr key="loading">
-            <td colSpan="6">
-                <span className="text-danger"> Users matching criteria were not found </span>
-            </td>
-        </tr>
-    );
-
     render() {
-        const { list } = this.props;
-        const { loading } = this.props.metadata;
+        const { list, auth } = this.props;
+        const { loading, model } = this.props.metadata;
         return (
             <section>
                 <Table striped hover>
@@ -83,10 +58,15 @@ class UserList extends Component {
                     <tbody>
                         {
                             loading ?
-                            this.renderLoading() :
+                                (<InfoLoading/>) :
                                 list.length ?
-                                    list.map(this.renderUser.bind(this)) :
-                                    this.renderEmpty()
+                                    list.map(user => (
+                                        <UserItem
+                                            key={user.id} user={user} model={model}
+                                            highlight={user.username === auth.username}
+                                        />)
+                                    ) :
+                                    (<ErrorEmpty/>)
                         }
                     </tbody>
                 </Table>

@@ -35,7 +35,7 @@ export default class UserSearch extends Component {
         <FormGroup bsSize="small">
             <InputGroup>
                 <FormControl type="text" placeholder="Search by username"
-                             onChange={this.updateLookup}/>
+                             onChange={this.updateLookup} defaultValue={lookup} />
                 <InputGroup.Button>
                     <Button bsSize="small" bsStyle="info" onClick={() => search(lookup)}>
                         <Glyphicon glyph="search" />
