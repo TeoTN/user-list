@@ -4,7 +4,9 @@ import UserToolbar from '../home/UserToolbar';
 
 const HomeLayout = () => (
     <div>
-        <h1>User list</h1>
+        <h1>
+            User list
+        </h1>
         <UserToolbar />
         <UserList />
         <UserToolbar />

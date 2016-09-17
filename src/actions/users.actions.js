@@ -5,11 +5,9 @@ export const remove = (id) => ({
     id
 });
 
-let lastUserId = 0;
 export const add = (data) => ({
     type: types.ADD,
     userData: {
-        id: lastUserId++,
         ...data,
     },
 });

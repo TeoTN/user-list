@@ -56,25 +56,21 @@ class UserList extends Component {
         );
     }
 
-    renderLoading() {
-        return (
-            <tr key="loading">
-                <td colSpan="6">
-                    <span className="text-info"> Loading... </span>
-                </td>
-            </tr>
-        );
-    }
+    renderLoading = () => (
+        <tr key="loading">
+            <td colSpan="6">
+                <span className="text-info"> Loading... </span>
+            </td>
+        </tr>
+    );
 
-    renderEmpty() {
-        return (
-            <tr key="loading">
-                <td colSpan="6">
-                    <span className="text-danger"> Users matching criteria were not found </span>
-                </td>
-            </tr>
-        );
-    }
+    renderEmpty = () => (
+        <tr key="loading">
+            <td colSpan="6">
+                <span className="text-danger"> Users matching criteria were not found </span>
+            </td>
+        </tr>
+    );
 
     render() {
         const { list } = this.props;

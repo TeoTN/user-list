@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserSearch from './UserSearch';
+import UserSpawn from './UserSpawn';
 import * as actions from '../../actions/users.actions';
 import {
     Form,
@@ -29,6 +30,9 @@ export default class UserToolbar extends Component {
             <Form inline>
             <ButtonToolbar>
                 <ButtonGroup>
+                    <UserSpawn />
+                </ButtonGroup>
+                <ButtonGroup>
                     <Pagination bsSize="small" prev next first last ellipsis boundaryLinks
                         items={Math.ceil(count / page_size)} maxButtons={3} activePage={page}
                         style={{'margin': '1px'}} onSelect={changePage} />
@@ -44,7 +48,9 @@ export default class UserToolbar extends Component {
                         ) }
                     </DropdownButton>
                 </ButtonGroup>
-                <UserSearch />
+                <ButtonGroup>
+                    <UserSearch />
+                </ButtonGroup>
             </ButtonToolbar>
             </Form>
         );
