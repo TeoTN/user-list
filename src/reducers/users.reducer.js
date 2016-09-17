@@ -11,6 +11,14 @@ export const defaultmetadata = {
     page_size: 10,
     filter: '',
     loading: true,
+    model: {
+        id: 'ID',
+        username: 'User name',
+        title: 'Title',
+        views: '# views',
+        likes: '# likes',
+        date_created: 'Created on'
+    }
 };
 
 const metadata = (state = defaultmetadata, action) => {

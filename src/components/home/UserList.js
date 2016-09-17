@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Table } from 'react-bootstrap';
+import UserListHeader from './UserListHeader';
 import { fetchUsers } from '../../api/users.api';
-import { receiveList, fetchDone } from '../../actions/users.actions';
+import * as actions from '../../actions/users.actions';
 
 const mapStateToProps = (state) => ({
     list: state.users.list,
@@ -10,8 +11,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    receiveList: (metadata) => dispatch(receiveList(metadata)),
-    fetchDone: () => dispatch(fetchDone())
+    receiveList: (metadata) => dispatch(actions.receiveList(metadata)),
+    fetchDone: () => dispatch(actions.fetchDone()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -42,11 +43,13 @@ class UserList extends Component {
     }
 
     renderUser(user) {
+        const { model } = this.props.metadata;
+
         return (
             <tr key={user.id}>
                 {
-                    Object.entries(user).map(
-                        ([prop, value]) => <td key={prop}>{value}</td>
+                    Object.entries(model).map(
+                        ([key, label]) => <td key={key}>{user[key]}</td>
                     )
                 }
             </tr>
@@ -79,22 +82,13 @@ class UserList extends Component {
         return (
             <section>
                 <Table striped hover>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Post title</th>
-                        <th>Views</th>
-                        <th>Likes</th>
-                        <th>Created on</th>
-                    </tr>
-                    </thead>
+                    <UserListHeader />
                     <tbody>
                         {
                             loading ?
                             this.renderLoading() :
                                 list.length ?
-                                    list.map(this.renderUser) :
+                                    list.map(this.renderUser.bind(this)) :
                                     this.renderEmpty()
                         }
                     </tbody>
