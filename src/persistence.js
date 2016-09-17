@@ -1,7 +1,6 @@
 const loadData = (key) => () => {
     try {
         const serializedData = localStorage.getItem(key);
-        console.log(`[LOAD] Key: ${key} Data: ${serializedData}`);
         if (serializedData === null) {
             return undefined;
         }
@@ -13,7 +12,6 @@ const loadData = (key) => () => {
 };
 
 const saveData = (key) => (data) => {
-    console.log(`[SAVE] Key: ${key} Data: ${JSON.stringify(data)}`);
     try {
         const serializedData = JSON.stringify(data);
         localStorage.setItem(key, serializedData);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import Auth from './Auth';
 
 const Header = () => (
     <Navbar staticTop>
@@ -19,6 +20,9 @@ const Header = () => (
             <LinkContainer to={{ pathname: '/settings'}}>
                 <NavItem eventKey={3} href="#">Settings</NavItem>
             </LinkContainer>
+        </Nav>
+        <Nav pullRight>
+            <Auth />
         </Nav>
     </Navbar>
 );
